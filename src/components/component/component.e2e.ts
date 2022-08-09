@@ -9,6 +9,18 @@ describe('my-component', () => {
     expect(element).toHaveClass('hydrated');
   });
 
+  it("emits myThemeChange on page load", async () => {
+    const page = await newE2EPage();
+
+    await page.setContent('<my-component></my-component>');
+    const myThemeChangeSpy = await page.spyOnEvent("myThemeChange");
+
+    await page.waitForChanges();
+
+    expect(myThemeChangeSpy).toHaveReceivedEventTimes(1);
+    expect(myThemeChangeSpy.lastEvent.detail.theme).toBe("light");
+  });
+
   it('renders changes to the name data', async () => {
     const page = await newE2EPage();
 

@@ -11,4 +11,7 @@
   <body>
     <my-component first="Stencil" last="'Don't call me a framework' JS"></my-component>
   </body>
+  <script>
+    document.addEventListener("myThemeChange", ({detail}) => console.log(detail.theme))
+  </script>
 </html>
