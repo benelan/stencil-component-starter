@@ -1,7 +1,8 @@
 {
-  "name": "stencil-starter-project-name",
+  "name": "@benelan/stencil-starter-project-name",
   "version": "0.0.1",
   "description": "Stencil Component Starter",
+  "type":"module",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
   "es2015": "dist/esm/index.mjs",
@@ -19,20 +20,28 @@
     "loader/"
   ],
   "scripts": {
-    "build": "stencil build --docs",
+    "clean": "rm -rf ./dist ./loader ./www ./node_modules ./repro-sample/node_modules ./repro-sample/dist",
+    "link": "npm link && cd repro-sample && npm link @benelan/stencil-starter-project-name",
+    "postinstall": "cd repro-sample && npm i",
+    "build":"npm run build:stencil && npm run link && npm run build:sample",
+    "build:patched": "npm run build:stencil && node ./support/patchESMResolution.js && npm run link && npm run build:sample",
+    "build:sample": "cd repro-sample && npm run build",
+    "build:stencil": "stencil build --docs",
     "start": "stencil build --dev --watch --serve",
+    "start:sample": "cd repro-sample && npm start",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
     "generate": "stencil generate"
   },
   "dependencies": {
-    "@stencil/core": "^2.13.0"
+    "@stencil/core": "^2.16.1"
   },
   "devDependencies": {
     "@types/jest": "^27.0.3",
     "jest": "^27.4.5",
     "jest-cli": "^27.4.5",
-    "puppeteer": "^10.0.0"
+    "puppeteer": "^10.0.0",
+    "shell-quote": "^1.7.3"
   },
   "license": "MIT"
 }
